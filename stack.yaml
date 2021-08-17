@@ -35,6 +35,7 @@ packages:
 - ../modular_happy/packages/middleend
 - ../modular_happy/packages/backend
 - ../modular_happy/packages/core
+- ../yapb
 
 
 # Dependency packages to be pulled from upstream that are not in the resolver.

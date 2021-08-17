@@ -31,12 +31,12 @@ import Util
 >               productions       :: [Production],
 >               lookupProdNo      :: Int -> Production,
 >               lookupProdsOfName :: Name -> [Int],
->               token_specs       :: [(Name,String)],
+>               token_specs       :: [(Name,String)],                -- VARID, L _ (ITvarid _)
 >               terminals         :: [Name],
 >               non_terminals     :: [Name],
 >               starts            :: [(String,Name,Name,Bool)],
 >               types             :: Array Int (Maybe String),
->               token_names       :: Array Int String,
+>               token_names       :: Array Int String,               -- 436 : VARID
 >               first_nonterm     :: Name,
 >               first_term        :: Name,
 >               eof_term          :: Name,
@@ -78,6 +78,7 @@ main = do
     Right grammar -> do
       putStrLn "Grammar:"
       putStrLn $ showGrammar grammar
+      
       (actionTable, gotoTable, lr1States, unused_rules)
         <- ME.parseAndRun [] fileName baseName grammar
 --      putStrLn $ show lr1States
@@ -85,5 +86,21 @@ main = do
       putStrLn $ showActionTable grammar lr1States actionTable
       putStrLn "Goto table:"
       putStrLn $ showGotoTable grammar lr1States gotoTable
+      putStrLn "Token spec:"
+      putStrLn $ showToken_Specs grammar
+      putStrLn "Terminals:"
+      putStrLn $ showTerminals grammar
 
-    
+      -- For associating lexer with parser
+      -- putStrLn "fromToken:"
+      -- putStrLn $ prFromToken grammar
+
+      -- For parser
+      putStrLn "ProdRules:"
+      putStrLn $ prProdRules grammar
+
+      putStrLn "ActionTable:"
+      putStrLn $ prActionTable grammar lr1States actionTable
+
+      putStrLn "GotoTable:"
+      putStrLn $ prGotoTable grammar lr1States gotoTable
